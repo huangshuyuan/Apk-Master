@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ApkShowDemo</string>
+
+    <string name="type_application">应用</string>
+    <string name="type_music">音乐</string>
+    <string name="type_movie">电影</string>
+    <string name="type_photo">图片</string>
+    <string name="type_other">其他</string>
+
+
+    <string name="menu_open">打开</string>
+    <string name="menu_delete">删除</string>
+    <string name="menu_uninstall">卸载</string>
+    <string name="menu_property">属性</string>
+
+
+    <string name="installed_apps">已安装应用</string>
+    <string name="package_uninstalled">已卸载</string>
+</resources>
