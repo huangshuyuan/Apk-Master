@@ -23,24 +23,24 @@ import java.util.ArrayList;
 public class MyGridViewAdapter extends BaseAdapter {
     private ArrayList<String>  mNameList     = new ArrayList<>();
     private ArrayList<String>  mPathList     = new ArrayList<>();
-    private ArrayList<Boolean> mCheckBoxList = new ArrayList<>();
+//    private ArrayList<Boolean> mCheckBoxList = new ArrayList<>();
     private LayoutInflater mInflater;
     private Context        mContext;
     private int            imagetViewHeight;
 
-    public MyGridViewAdapter(Context context, ArrayList<String> nameList, ArrayList<String> pathList, ArrayList<Boolean> checkBoxList, int imageViewHeigth) {
+    public MyGridViewAdapter(Context context, ArrayList<String> nameList, ArrayList<String> pathList, int imageViewHeigth) {
         mNameList = nameList;
         mPathList = pathList;
-        mCheckBoxList = checkBoxList;
+//        mCheckBoxList = checkBoxList;
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
         this.imagetViewHeight = (int) BitmapUtils.dipTopx(context, imageViewHeigth);
 //        this.imagetViewHeight = 100;
     }
 
-    public ArrayList<Boolean> getmCheckBoxList() {
-        return this.mCheckBoxList;
-    }
+//    public ArrayList<Boolean> getmCheckBoxList() {
+//        return this.mCheckBoxList;
+//    }
 
     @Override
     public int getCount() {
@@ -83,8 +83,8 @@ public class MyGridViewAdapter extends BaseAdapter {
         }else {
             viewTag.mIcon.setImageResource(FileTypeUtils.getDefaultFileIcon(path));
         }
-        viewTag.mCheckBox.setChecked(mCheckBoxList.get(position));
-        viewTag.mCheckBox.setVisibility(mCheckBoxList.get(position) ? View.VISIBLE : View.GONE);
+//        viewTag.mCheckBox.setChecked(mCheckBoxList.get(position));
+//        viewTag.mCheckBox.setVisibility(mCheckBoxList.get(position) ? View.VISIBLE : View.GONE);
         return convertView;
     }
 

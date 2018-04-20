@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -42,9 +43,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     List<PackageInfo>  packageInfoList = new ArrayList<>();
     List<PackageInfo>  apps            = new ArrayList<>();
     ArrayList<String>  mNameList       = new ArrayList<>();
+    /**
+     * 应用路径
+     */
+
     ArrayList<String>  mPathList       = new ArrayList<>();
     ArrayList<String>  mPackageList    = new ArrayList<>();
-    ArrayList<Boolean> mCheckBoxList   = new ArrayList<>();
+//    ArrayList<Boolean> mCheckBoxList   = new ArrayList<>();
 
     //用来还原gridview的位置
     private int gridViewState_pos = 0;
@@ -170,6 +175,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 break;
             case R.string.menu_property:
+                //跳转到该应用的详细设置页面，设置权限页面
+                Intent localIntent = new Intent();
+                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                String packageName1 = ApkUtils.getApkPackageName(MainActivity.this, path);
+
+                if (Build.VERSION.SDK_INT >= 9) {
+                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                    localIntent.setData(Uri.fromParts("package", packageName1, null));
+                } else if (Build.VERSION.SDK_INT <= 8) {
+                    localIntent.setAction(Intent.ACTION_VIEW);
+                    localIntent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
+                    localIntent.putExtra("com.android.settings.ApplicationPkgName", packageName1);
+                }
+                startActivity(localIntent);
 
                 break;
             default:
@@ -186,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 mNameList.clear();
                 mPathList.clear();
                 mPackageList.clear();
-                mCheckBoxList.clear();
+//                mCheckBoxList.clear();
                 packageInfoList = manager.getInstalledPackages(0);
                 for (int i = 0; i < packageInfoList.size(); i++) {
                     PackageInfo packageInfo = packageInfoList.get(i);
@@ -196,11 +215,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         mNameList.add(manager.getApplicationLabel(packageInfo.applicationInfo).toString());
                         mPathList.add(packageInfo.applicationInfo.sourceDir);
                         mPackageList.add(packageInfo.packageName);
-                        mCheckBoxList.add(false);
+//                        mCheckBoxList.add(false);
                     } else {
                     }
                 }
-                adapter = new MyGridViewAdapter(MainActivity.this, mNameList, mPathList, mCheckBoxList, 60);
+                adapter = new MyGridViewAdapter(MainActivity.this, mNameList, mPathList,  60);
                 handler.sendEmptyMessage(LOAD_DATA_FINISHED);
             }
         }.start();
@@ -225,8 +244,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mCheckBoxList = adapter.getmCheckBoxList();
-        mCheckBoxList.set(position, !mCheckBoxList.get(position));
+//        mCheckBoxList = adapter.getmCheckBoxList();
+//        mCheckBoxList.set(position, !mCheckBoxList.get(position));
         //        MainActivity activity = (MainActivity) getApplicationContext();
         //        if (mCheckBoxList.get(position)) {
         //            //checked--->add to sendfile-list
@@ -248,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 String appName = "";
                 if (index >= 0) {
                     appName = mNameList.get(index);
-                    boolean isChecked = mCheckBoxList.get(index);
+//                    boolean isChecked = mCheckBoxList.get(index);
                     String path = mPathList.get(index);
                     PackageInfo info = apps.get(index);
                     apps.remove(index);
@@ -256,11 +275,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     mNameList.remove(index);
                     mPathList.remove(index);
                     mPackageList.remove(index);
-                    mCheckBoxList.remove(index);
-                    if (isChecked) {
-                        //                        MainActivity activity = (MainActivity) getApplicationContext();
-                        //                        activity.removeFileFromSendFileList(path);
-                    }
+//                    mCheckBoxList.remove(index);
+//                    if (isChecked) {
+//                        //                        MainActivity activity = (MainActivity) getApplicationContext();
+//                        //                        activity.removeFileFromSendFileList(path);
+//                    }
                     if (adapter != null) {
                         adapter.notifyDataSetChanged();
                     }
